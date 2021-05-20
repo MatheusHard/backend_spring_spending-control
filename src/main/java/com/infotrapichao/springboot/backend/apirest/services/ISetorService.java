@@ -8,7 +8,7 @@ public interface ISetorService {
 
 	public List<Setor> findAll();
 	public Setor findById(Long id);
-	public Setor save(Setor cliente);
+	public Setor save(Setor setor);
 	public void delete(Long id);
 	
 }

@@ -124,7 +124,7 @@ public class SetorRestController {
 		
 		try {
 		
-			setorAtual.setDescricao(setor.getDescricao());
+			setorAtual.setDescricao_setor(setor.getDescricao_setor());
 			
 			setorUpdated =  setorService.save(setorAtual);
 		}catch (DataAccessException e) {
