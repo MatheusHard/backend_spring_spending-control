@@ -104,8 +104,7 @@ import com.infotrapichao.springboot.backend.apirest.services.IUfService;
 			Uf ufUpdated = null;
 			
 			Map<String, Object> response = new HashMap<>();
-			
-
+		
 			if(result.hasErrors()) {
 				
 				List<String> errors = result.getFieldErrors().
@@ -137,8 +136,7 @@ import com.infotrapichao.springboot.backend.apirest.services.IUfService;
 			response.put("uf", ufUpdated);
 			
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
-			
-			
+						
 			}
 		
 		/****************DELETE****************/
