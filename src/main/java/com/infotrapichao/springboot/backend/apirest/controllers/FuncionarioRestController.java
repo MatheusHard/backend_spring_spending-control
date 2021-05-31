@@ -26,6 +26,10 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import com.infotrapichao.springboot.backend.apirest.entity.Funcionario;
 import com.infotrapichao.springboot.backend.apirest.services.IFuncionarioService;
 
+<<<<<<< HEAD
+=======
+	
+>>>>>>> develop-matheus
 @CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
 @RequestMapping("/api")
