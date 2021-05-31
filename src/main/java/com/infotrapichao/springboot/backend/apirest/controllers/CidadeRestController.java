@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.infotrapichao.springboot.backend.apirest.entity.Cidade;
 import com.infotrapichao.springboot.backend.apirest.services.ICidadeService;
 
-
+@CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
 @RequestMapping("/api")
 public class CidadeRestController {
