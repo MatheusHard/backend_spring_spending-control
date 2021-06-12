@@ -9,6 +9,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.infotrapichao.springboot.backend.apirest.entity.Cidade;
+import com.infotrapichao.springboot.backend.apirest.entity.Uf;
 import com.infotrapichao.springboot.backend.apirest.services.ICidadeService;
 
 @CrossOrigin(origins = {"http://localhost:4200"})
@@ -40,6 +43,22 @@ public class CidadeRestController {
 	public List<Cidade> index(){
 		return cidadeService.findAll();
 	}
+	
+	/****************GET ALL PAGEABLE****************/
+	
+	@GetMapping("/cidades/page/{page}")
+	public Page<Cidade> index(@PathVariable Integer page){
+		return cidadeService.findAll(PageRequest.of(page, 4));
+	}
+	
+/****************GET ALL UFS****************/
+	
+	@GetMapping("/cidades/ufs")
+	public List<Uf> listarUfs(){
+		return cidadeService.findAllUfs();
+	}
+	
+
 	
 	/****************GET SHOW****************/
 	
@@ -91,7 +110,7 @@ public class CidadeRestController {
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR); 
 		}
 		
-		response.put("mensagem", "Cidade inserido na base de dados com sucesso");
+		response.put("mensagem", "Cidade inserida na base de dados com sucesso");
 		response.put("cidade", newCidade);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED); 
 	}
@@ -127,7 +146,8 @@ public class CidadeRestController {
 		try {
 		
 			cidadeAtual.setDescricao_cidade(cidade.getDescricao_cidade());
-			cidadeAtual.setFk_uf(cidade.getFk_uf());
+			cidadeAtual.setUf(cidade.getUf());
+
 			
 			cidadeUpdated =  cidadeService.save(cidadeAtual);
 		}catch (DataAccessException e) {
