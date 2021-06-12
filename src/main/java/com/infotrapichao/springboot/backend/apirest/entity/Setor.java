@@ -30,20 +30,9 @@ public class Setor implements Serializable{
 	@Column(nullable = false)
 	private String descricao_setor;
 	
-	
-		
-	
-
-
-
-
 	public Long getId() {
 		return id;
 	}
-
-
-
-
 
 	public void setId(Long id) {
 		this.id = id;
@@ -53,20 +42,9 @@ public class Setor implements Serializable{
 		return descricao_setor;
 	}
 
-
-
-
-
 	public void setDescricao_setor(String descricao_setor) {
 		this.descricao_setor = descricao_setor;
 	}
-
-
-
-	
-
-
-
 
 	/**
 	 * 
