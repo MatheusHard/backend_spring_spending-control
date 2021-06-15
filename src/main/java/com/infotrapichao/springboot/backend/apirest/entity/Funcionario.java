@@ -5,9 +5,12 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -15,6 +18,8 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -29,6 +34,13 @@ public class Funcionario implements Serializable{
 		@Id
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
 		private Long id;
+		
+
+		@NotNull(message = "Setor não pode ser vazio!!!")
+		@ManyToOne(fetch = FetchType.LAZY)
+		@JoinColumn(name = "setor_id")
+		@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+		private Setor setor; 
 		
 		@NotEmpty(message = "Nome é Obrigatório!!!")
 		@Size(min = 3, max = 100, message = "Tamanho deve ser entre 3 e 100 caracteres!!!")
@@ -48,11 +60,18 @@ public class Funcionario implements Serializable{
 		@Column(nullable = true)
 		private String telefone;
 		
-		//@NotEmpty(message = "Fk Setor é Obrigatório!!!")
-		@NotNull(message = "Fk Setor é Obrigatório!!!")
-		@Column(nullable = false)
-		private Long fk_setor;
-		
+			
+		public Setor getSetor() {
+			return setor;
+		}
+
+		public void setSetor(Setor setor) {
+			this.setor = setor;
+		}
+
+
+
+
 		@Column(name="create_at")
 		@Temporal(TemporalType.DATE)
 		private Date createAt;
@@ -102,14 +121,7 @@ public class Funcionario implements Serializable{
 			this.telefone = telefone;
 		}
 
-		public Long getFk_setor() {
-			return fk_setor;
-		}
-
-		public void setFk_setor(Long fk_setor) {
-			this.fk_setor = fk_setor;
-		}
-
+		
 		public Date getCreateAt() {
 			return createAt;
 		}

@@ -70,6 +70,7 @@ public class CidadeRestController {
 		Map<String, Object> response = new HashMap<>();
 		
 		try{
+			 
 			cidade = cidadeService.findById(id);	
 			
 		}catch (DataAccessException e) {

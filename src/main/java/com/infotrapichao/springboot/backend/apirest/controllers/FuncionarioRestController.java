@@ -131,7 +131,7 @@ public class FuncionarioRestController {
 				funcionarioAtual.setCpf(funcionario.getCpf());
 				funcionarioAtual.setEmail(funcionario.getEmail());
 				funcionarioAtual.setTelefone(funcionario.getTelefone());
-				funcionarioAtual.setFk_setor(funcionario.getFk_setor());
+				funcionarioAtual.setSetor(funcionario.getSetor());
 								
 				funcionarioUpdated =  funcionarioService.save(funcionarioAtual);
 			}catch (DataAccessException e) {
