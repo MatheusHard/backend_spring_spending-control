@@ -60,6 +60,10 @@ public class Funcionario implements Serializable{
 		@Column(nullable = true)
 		private String telefone;
 		
+		@Column(name="create_at")
+		@Temporal(TemporalType.DATE)
+		private Date createAt;
+		
 			
 		public Setor getSetor() {
 			return setor;
@@ -69,12 +73,6 @@ public class Funcionario implements Serializable{
 			this.setor = setor;
 		}
 
-
-
-
-		@Column(name="create_at")
-		@Temporal(TemporalType.DATE)
-		private Date createAt;
 				
 		@PrePersist
 		public void prePersist() {

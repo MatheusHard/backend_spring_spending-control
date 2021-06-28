@@ -39,11 +39,6 @@ public class Cidade  implements Serializable {
 	@Column(nullable = false)
 	private String descricao_cidade;
 	
-	/*@NotNull(message = "Fk Uf é Obrigatório!!!")
-	@Column(nullable = false)
-	private Long fk_uf;
-	*/
-	
 	@NotNull(message = "Uf não pode ser vazio!!!")
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "uf_id")

@@ -25,60 +25,71 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.infotrapichao.springboot.backend.apirest.entity.Cidade;
-import com.infotrapichao.springboot.backend.apirest.entity.Setor;
-import com.infotrapichao.springboot.backend.apirest.services.ISetorService;
+import com.infotrapichao.springboot.backend.apirest.entity.Funcionario;
+import com.infotrapichao.springboot.backend.apirest.entity.Viajem;
+import com.infotrapichao.springboot.backend.apirest.services.IViajemService;
 
 @CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
 @RequestMapping("/api")
-public class SetorRestController {
+public class ViajemRestController {
 
 	@Autowired
-	private ISetorService setorService;
+	private IViajemService viajemService;
 	
 	/****************GET ALL****************/
 	
-	@GetMapping("/setores")
-	public List<Setor> index(){
-		return setorService.findAll();
+	@GetMapping("/viagens")
+	public List<Viajem> index(){
+		return viajemService.findAll();
 	}
 	
-/****************GET ALL PAGEABLE****************/
+	/****************GET ALL PAGEABLE****************/
 	
-	@GetMapping("/setores/page/{page}")
-	public Page<Setor> index(@PathVariable Integer page){
-		return setorService.findAll(PageRequest.of(page, 4));
+	@GetMapping("/viagens/page/{page}")
+	public Page<Viajem> index(@PathVariable Integer page){
+		return viajemService.findAll(PageRequest.of(page, 4));
 	}
+	
+/****************GET ALL UFS****************/
+	
+	@GetMapping("/viagens/funcionarios")
+	public List<Funcionario> listarFuncionarios(){
+		return viajemService.findAllFuncionarios();
+	}
+	
+
+	
 	/****************GET SHOW****************/
 	
-	@GetMapping("/setores/{id}")
+	@GetMapping("/viagens/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<?> show(@PathVariable Long id) {
 		
-		Setor setor = null;
+		Viajem viajem = null;
 		Map<String, Object> response = new HashMap<>();
 		
 		try{
-			setor = setorService.findById(id);	
+			 
+			viajem  = viajemService.findById(id);	
 			
 		}catch (DataAccessException e) {
 			response.put("mensagem", "Erro ao realizar consulta no DB");
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
 		}
-		if(setor == null) {
-			response.put("mensagem", "O Setor: ".concat(id.toString().concat(" não existe!!!")));
+		if(viajem  == null) {
+			response.put("mensagem", "A viajem: ".concat(id.toString().concat(" não existe!!!")));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
-		return new ResponseEntity<Setor>(setor, HttpStatus.OK);
+		return new ResponseEntity<Viajem>(viajem , HttpStatus.OK);
 	}
 	
 	/****************POST****************/
 	
-	@PostMapping("/setores")
-	public ResponseEntity<?> create(@Valid @RequestBody Setor setor, BindingResult result) {
-		Setor newSetor = null;
+	@PostMapping("/viagens")
+	public ResponseEntity<?> create(@Valid @RequestBody Viajem viajem, BindingResult result) {
+		Viajem newViajem = null;
 		Map<String, Object> response = new HashMap<>();
 		
 		if(result.hasErrors()) {
@@ -93,25 +104,25 @@ public class SetorRestController {
 		}
 		
 		try{
-			newSetor = setorService.save(setor);
+			newViajem = viajemService.save(viajem);
 		}catch (DataAccessException e) {
-			response.put("mensagem", "Erro ao inserir Setor na base de dados");
+			response.put("mensagem", "Erro ao inserir a Viajem na base de dados");
 			response.put("error",e.getMessage().concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR); 
 		}
 		
-		response.put("mensagem", "Setor inserido na base de dados com sucesso");
-		response.put("setor", newSetor);
+		response.put("mensagem", "Viajem inserida na base de dados com sucesso");
+		response.put("cidade", newViajem);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED); 
 	}
 	
 	/****************PUT****************/
 	
-	@PutMapping("setores/{id}")
-	public ResponseEntity<?> update(@Valid @RequestBody Setor setor, BindingResult result, @PathVariable Long id) {
+	@PutMapping("viagens/{id}")
+	public ResponseEntity<?> update(@Valid @RequestBody Viajem viajem , BindingResult result, @PathVariable Long id) {
 		
-		Setor setorAtual = setorService.findById(id);
-		Setor setorUpdated = null;
+		Viajem viajemAtual = viajemService.findById(id);
+		Viajem viajemUpdated = null;
 		
 		Map<String, Object> response = new HashMap<>();
 		
@@ -128,23 +139,28 @@ public class SetorRestController {
 		}
 		
 		
-		if(setorAtual == null) {
+		if(viajemAtual == null) {
 			response.put("mensagem", "Erro: não foi possivel editar o ID: ".concat(id.toString()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
 		}
 		
 		try {
 		
-			setorAtual.setDescricao_setor(setor.getDescricao_setor());
-			
-			setorUpdated =  setorService.save(setorAtual);
+			viajemAtual.setDataInicial(viajem.getDataInicial());
+			viajemAtual.setDataFinal(viajem.getDataFinal());
+			viajemAtual.setSaldo(viajem.getSaldo());
+			viajemAtual.setGastoTotal(viajem.getGastoTotal());
+			viajemAtual.setFuncionario(viajem.getFuncionario());
+									
+			viajemUpdated =  viajemService.save(viajemAtual);
+		
 		}catch (DataAccessException e) {
-			response.put("mensagem", "Erro al atualizar o setor na base");
+			response.put("mensagem", "Erro al atualizar a Viajem na base");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		response.put("mensagem", "Atualizado na base com sucesso!!!");
-		response.put("setor", setorUpdated);
+		response.put("cidade", viajemUpdated);
 		
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 		
@@ -153,54 +169,20 @@ public class SetorRestController {
 	
 	/****************DELETE****************/
 		
-	@DeleteMapping("/setores/{id}")
+	@DeleteMapping("/viagens/{id}")
 	public ResponseEntity<?> delete(@PathVariable Long id) {
 		Map<String, Object> response = new HashMap<>();
 
 		try {
-			setorService.delete(id);
+			viajemService.delete(id);
 		}catch (DataAccessException e) {
 			
-			response.put("mensagem", "Erro, não foi possivel deletar o setor na base");
+			response.put("mensagem", "Erro, não foi possivel deletar a viajem na base");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);		
 			
 		}
 			
-		response.put("mensagem", "Setor deletado da base");
+		response.put("mensagem", "Viajem deletada da base");
         return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);		
 	}}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
