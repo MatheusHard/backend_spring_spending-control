@@ -9,6 +9,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.infotrapichao.springboot.backend.apirest.entity.Cidade;
 import com.infotrapichao.springboot.backend.apirest.entity.Setor;
 import com.infotrapichao.springboot.backend.apirest.services.ISetorService;
 
@@ -41,6 +44,12 @@ public class SetorRestController {
 		return setorService.findAll();
 	}
 	
+/****************GET ALL PAGEABLE****************/
+	
+	@GetMapping("/setores/page/{page}")
+	public Page<Setor> index(@PathVariable Integer page){
+		return setorService.findAll(PageRequest.of(page, 4));
+	}
 	/****************GET SHOW****************/
 	
 	@GetMapping("/setores/{id}")
@@ -135,7 +144,7 @@ public class SetorRestController {
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		response.put("mensagem", "Atualizado na base com sucesso!!!");
-		response.put("cliente", setorUpdated);
+		response.put("setor", setorUpdated);
 		
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 		
@@ -152,7 +161,7 @@ public class SetorRestController {
 			setorService.delete(id);
 		}catch (DataAccessException e) {
 			
-			response.put("mensagem", "Erro ,  não foi possivel deletar o setor na base");
+			response.put("mensagem", "Erro, não foi possivel deletar o setor na base");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);		
 			

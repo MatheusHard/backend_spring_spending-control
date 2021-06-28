@@ -9,7 +9,9 @@ package com.infotrapichao.springboot.backend.apirest.controllers;
 
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.dao.DataAccessException;
-	import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 	import org.springframework.http.ResponseEntity;
 	import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -23,7 +25,10 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 	import org.springframework.web.bind.annotation.ResponseStatus;
 	import org.springframework.web.bind.annotation.RestController;
 
+import com.infotrapichao.springboot.backend.apirest.entity.Cidade;
 import com.infotrapichao.springboot.backend.apirest.entity.Funcionario;
+import com.infotrapichao.springboot.backend.apirest.entity.Setor;
+import com.infotrapichao.springboot.backend.apirest.entity.Uf;
 import com.infotrapichao.springboot.backend.apirest.services.IFuncionarioService;
 
 <<<<<<< HEAD
@@ -43,6 +48,21 @@ public class FuncionarioRestController {
 		@GetMapping("/funcionarios")
 		public List<Funcionario> index(){
 			return funcionarioService.findAll();
+		}
+		
+
+		/****************GET ALL PAGEABLE****************/
+		
+		@GetMapping("/funcionarios/page/{page}")
+		public Page<Funcionario> index(@PathVariable Integer page){
+			return funcionarioService.findAll(PageRequest.of(page, 4));
+		}
+		
+		/****************GET ALL SETORES****************/
+		
+		@GetMapping("/funcionarios/setores")
+		public List<Setor> listarSetores(){
+			return funcionarioService.findAllSetores();
 		}
 		
 		/****************GET SHOW****************/
@@ -134,7 +154,7 @@ public class FuncionarioRestController {
 				funcionarioAtual.setCpf(funcionario.getCpf());
 				funcionarioAtual.setEmail(funcionario.getEmail());
 				funcionarioAtual.setTelefone(funcionario.getTelefone());
-				funcionarioAtual.setFk_setor(funcionario.getFk_setor());
+				funcionarioAtual.setSetor(funcionario.getSetor());
 								
 				funcionarioUpdated =  funcionarioService.save(funcionarioAtual);
 			}catch (DataAccessException e) {
