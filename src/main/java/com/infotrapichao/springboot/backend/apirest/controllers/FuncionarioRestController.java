@@ -31,10 +31,7 @@ import com.infotrapichao.springboot.backend.apirest.entity.Setor;
 import com.infotrapichao.springboot.backend.apirest.entity.Uf;
 import com.infotrapichao.springboot.backend.apirest.services.IFuncionarioService;
 
-<<<<<<< HEAD
-=======
-	
->>>>>>> develop-matheus
+
 @CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
 @RequestMapping("/api")
