@@ -7,7 +7,6 @@ import org.springframework.data.domain.Pageable;
 
 import com.infotrapichao.springboot.backend.apirest.entity.Funcionario;
 import com.infotrapichao.springboot.backend.apirest.entity.Setor;
-import com.infotrapichao.springboot.backend.apirest.entity.Uf;
 
 
 public interface IFuncionarioService {

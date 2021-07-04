@@ -59,7 +59,23 @@ public class Viajem implements Serializable{
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private Funcionario funcionario; 
     
-    @Column(name="create_at")
+    @NotNull(message = "Cidade não pode ser vazia!!!")
+   	@ManyToOne(fetch = FetchType.LAZY)
+   	@JoinColumn(name = "cidade_id")
+   	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+   	private Cidade cidade; 
+    
+    public Cidade getCidade() {
+		return cidade;
+	}
+
+
+	public void setCidade(Cidade cidade) {
+		this.cidade = cidade;
+	}
+
+
+	@Column(name="create_at")
 	@Temporal(TemporalType.DATE)
 	private Date createAt;
 			

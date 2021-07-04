@@ -49,7 +49,7 @@ public class Funcionario implements Serializable{
 		
 
 		@NotEmpty(message = "Cpf é Obrigatório!!!")
-		@Size(max = 11, message = "Tamanho deve ser entre 11 caracteres!!!")
+		@Size(max = 11, min= 11, message = "Tamanho deve ser entre 11 caracteres!!!")
 		@Column(nullable = false)
 		private String cpf;
 		

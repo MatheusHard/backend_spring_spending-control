@@ -9,10 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.infotrapichao.springboot.backend.apirest.dao.IFuncionarioDao;
-import com.infotrapichao.springboot.backend.apirest.entity.Cidade;
 import com.infotrapichao.springboot.backend.apirest.entity.Funcionario;
 import com.infotrapichao.springboot.backend.apirest.entity.Setor;
-import com.infotrapichao.springboot.backend.apirest.entity.Uf;
 
 @Service
 public class FuncionarioService implements IFuncionarioService{
