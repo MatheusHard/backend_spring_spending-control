@@ -9,6 +9,6 @@ import com.infotrapichao.springboot.backend.apirest.entity.Setor;
 
 public interface ISetorDao extends JpaRepository<Setor, Long>{
 
-	@Query("from Setor")
-	public List<Setor> findAllSetores();
+	//@Query("from Setor")
+	//public List<Setor> findAllSetores();
 }
