@@ -45,7 +45,6 @@ public class Cidade  implements Serializable {
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private Uf uf; 
 	
-	//@NotNull(message = "não pode estar vazio-  ")
 	@Column(name="create_at")
 	@Temporal(TemporalType.DATE)
 	private Date createAt;
@@ -86,14 +85,7 @@ public class Cidade  implements Serializable {
 	public void setDescricao_cidade(String descricao_cidade) {
 		this.descricao_cidade = descricao_cidade;
 	}
-
-	/*public Long getFk_uf() {
-		return fk_uf;
-	}
-
-	public void setFk_uf(Long fk_uf) {
-		this.fk_uf = fk_uf;
-	}*/
+	
 
 	/**
 	 * 
