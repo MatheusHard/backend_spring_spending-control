@@ -112,7 +112,7 @@ public class ViajemRestController {
 		}
 		
 		response.put("mensagem", "Viajem inserida na base de dados com sucesso");
-		response.put("cidade", newViajem);
+		response.put("viajem", newViajem);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED); 
 	}
 	
@@ -151,7 +151,8 @@ public class ViajemRestController {
 			viajemAtual.setSaldo(viajem.getSaldo());
 			viajemAtual.setGastoTotal(viajem.getGastoTotal());
 			viajemAtual.setFuncionario(viajem.getFuncionario());
-									
+			viajemAtual.setCidade(viajem.getCidade());
+			
 			viajemUpdated =  viajemService.save(viajemAtual);
 		
 		}catch (DataAccessException e) {

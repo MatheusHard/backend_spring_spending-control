@@ -15,7 +15,6 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Range;
@@ -45,11 +44,11 @@ public class Viajem implements Serializable{
 	@Temporal(TemporalType.DATE)
 	private Date dataFinal;
 	
-    @Range(min = 0, max = 10)
+    //@Range(min = 0, max = 10)
 	@Column(name = "saldo", nullable = false)
 	private double saldo;
     
-    @Range(min = 0, max = 10)
+    //@Range(min = 0, max = 10)
   	@Column(name="gasto_total", nullable = false)
   	private double gastoTotal;
     
@@ -65,17 +64,7 @@ public class Viajem implements Serializable{
    	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
    	private Cidade cidade; 
     
-    public Cidade getCidade() {
-		return cidade;
-	}
-
-
-	public void setCidade(Cidade cidade) {
-		this.cidade = cidade;
-	}
-
-
-	@Column(name="create_at")
+    @Column(name="create_at")
 	@Temporal(TemporalType.DATE)
 	private Date createAt;
 			
@@ -83,6 +72,17 @@ public class Viajem implements Serializable{
 	public void prePersist() {
 		this.createAt = new Date();
 	}
+	    
+    public Cidade getCidade() {
+		return cidade;
+	}
+
+	public void setCidade(Cidade cidade) {
+		this.cidade = cidade;
+	}
+
+
+	
 	
 	
 	public Long getId() {
