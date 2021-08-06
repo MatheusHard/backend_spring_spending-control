@@ -1,8 +1,11 @@
 package com.infotrapichao.springboot.backend.apirest.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -42,6 +46,7 @@ public class Funcionario implements Serializable{
 		@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 		private Setor setor; 
 		
+		
 		@NotEmpty(message = "Nome é Obrigatório!!!")
 		@Size(min = 3, max = 100, message = "Tamanho deve ser entre 3 e 100 caracteres!!!")
 		@Column(nullable = false)
@@ -64,7 +69,17 @@ public class Funcionario implements Serializable{
 		@Temporal(TemporalType.DATE)
 		private Date createAt;
 		
+		
+		@OneToMany(fetch = FetchType.LAZY, mappedBy = "funcionario", cascade = CascadeType.ALL)
+		private List<Viajem> viagens;
+
+		
+		
+		public Funcionario() {
 			
+			this.viagens = new ArrayList<>();
+		}
+
 		public Setor getSetor() {
 			return setor;
 		}
@@ -131,6 +146,17 @@ public class Funcionario implements Serializable{
 		
 		
 		
+		/*public List<Viajem> getViagens() {
+			return viagens;
+		}
+
+		public void setViagens(List<Viajem> viagens) {
+			this.viagens = viagens;
+		}*/
+
+
+
+
 		/**
 		 * 
 		 */
