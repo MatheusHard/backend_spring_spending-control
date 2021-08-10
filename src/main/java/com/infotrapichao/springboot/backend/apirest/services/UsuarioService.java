@@ -1,7 +1,6 @@
 package com.infotrapichao.springboot.backend.apirest.services;
 
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -20,7 +19,7 @@ import com.infotrapichao.springboot.backend.apirest.dao.IUsuarioDao;
 import com.infotrapichao.springboot.backend.apirest.entity.Usuario;
 
 @Service
-public class UsuarioService implements UserDetailsService{
+public class UsuarioService implements UserDetailsService, IUsuarioService{
 
 	private Logger logger = LoggerFactory.getLogger(UsuarioService.class);
 	
@@ -44,6 +43,12 @@ public class UsuarioService implements UserDetailsService{
 				.collect(Collectors.toList());
 		
 		return new User(usuario.getUsername(), usuario.getPassword(), usuario.getEnabled(), true, true, true, authorities);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Usuario findByUsername(String username) {
+		return usuarioDao.findByUsername(username);
 	}
 
 }
