@@ -32,8 +32,6 @@ public class Usuario implements Serializable{
 	
 	private Boolean enabled;
 	
-	
-
 	private String nome;
 	
 	@Column(unique = true)
