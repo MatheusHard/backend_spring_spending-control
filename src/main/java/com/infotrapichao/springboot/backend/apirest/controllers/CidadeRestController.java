@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -61,7 +62,8 @@ public class CidadeRestController {
 
 	
 	/****************GET SHOW****************/
-	
+
+	@Secured({"ROLE_ADMIN", "ROLE_USER"})
 	@GetMapping("/cidades/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<?> show(@PathVariable Long id) {
@@ -86,7 +88,7 @@ public class CidadeRestController {
 	}
 	
 	/****************POST****************/
-	
+	@Secured({"ROLE_ADMIN"})
 	@PostMapping("/cidades")
 	public ResponseEntity<?> create(@Valid @RequestBody Cidade cidade, BindingResult result) {
 		Cidade newCidade= null;
@@ -117,7 +119,8 @@ public class CidadeRestController {
 	}
 	
 	/****************PUT****************/
-	
+
+	@Secured({"ROLE_ADMIN"})
 	@PutMapping("cidades/{id}")
 	public ResponseEntity<?> update(@Valid @RequestBody Cidade cidade, BindingResult result, @PathVariable Long id) {
 		
@@ -166,6 +169,7 @@ public class CidadeRestController {
 	
 	/****************DELETE****************/
 		
+	@Secured({"ROLE_ADMIN"})
 	@DeleteMapping("/cidades/{id}")
 	public ResponseEntity<?> delete(@PathVariable Long id) {
 		Map<String, Object> response = new HashMap<>();

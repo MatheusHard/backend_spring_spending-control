@@ -13,7 +13,8 @@ package com.infotrapichao.springboot.backend.apirest.controllers;
 	import org.springframework.data.domain.PageRequest;
 	import org.springframework.http.HttpStatus;
 	import org.springframework.http.ResponseEntity;
-	import org.springframework.validation.BindingResult;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.validation.BindingResult;
 	import org.springframework.web.bind.annotation.CrossOrigin;
 	import org.springframework.web.bind.annotation.DeleteMapping;
 	import org.springframework.web.bind.annotation.GetMapping;
@@ -62,6 +63,7 @@ public class FuncionarioRestController {
 		
 		/****************GET SHOW****************/
 		
+		@Secured({"ROLE_ADMIN", "ROLE_USER"})
 		@GetMapping("/funcionarios/{id}")
 		@ResponseStatus(HttpStatus.OK)
 		public ResponseEntity<?> show(@PathVariable Long id) {
@@ -86,6 +88,7 @@ public class FuncionarioRestController {
 		
 		/****************POST****************/
 		
+		@Secured({"ROLE_ADMIN"})
 		@PostMapping("/funcionarios")
 		public ResponseEntity<?> create(@Valid @RequestBody Funcionario funcionario, BindingResult result) {
 			Funcionario newFuncionario= null;
@@ -116,7 +119,8 @@ public class FuncionarioRestController {
 		}
 		
 		/****************PUT****************/
-		
+
+		@Secured({"ROLE_ADMIN"})
 		@PutMapping("funcionarios/{id}")
 		public ResponseEntity<?> update(@Valid @RequestBody Funcionario funcionario, BindingResult result, @PathVariable Long id) {
 			
@@ -167,6 +171,7 @@ public class FuncionarioRestController {
 		
 		/****************DELETE****************/
 			
+		@Secured({"ROLE_ADMIN"})
 		@DeleteMapping("/funcionarios/{id}")
 		public ResponseEntity<?> delete(@PathVariable Long id) {
 			Map<String, Object> response = new HashMap<>();
