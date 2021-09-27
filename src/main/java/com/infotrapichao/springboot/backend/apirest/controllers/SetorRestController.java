@@ -155,6 +155,7 @@ public class SetorRestController {
 		}
 	
 	/****************DELETE****************/
+	
 	@Secured({"ROLE_ADMIN"})
 	@DeleteMapping("/setores/{id}")
 	public ResponseEntity<?> delete(@PathVariable Long id) {

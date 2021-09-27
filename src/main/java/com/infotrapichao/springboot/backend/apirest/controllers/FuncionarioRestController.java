@@ -63,7 +63,7 @@ public class FuncionarioRestController {
 		
 		/****************GET SHOW****************/
 		
-		@Secured({"ROLE_ADMIN", "ROLE_USER"})
+		//@Secured({"ROLE_ADMIN", "ROLE_USER"})
 		@GetMapping("/funcionarios/{id}")
 		@ResponseStatus(HttpStatus.OK)
 		public ResponseEntity<?> show(@PathVariable Long id) {

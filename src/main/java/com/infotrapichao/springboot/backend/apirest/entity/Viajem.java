@@ -50,10 +50,11 @@ public class Viajem implements Serializable{
   	@Column(name="gasto_total", nullable = false)
   	private double gastoTotal;
     
-    @NotNull(message = "Funcionario não pode ser vazio!!!")
+    
+	//@JoinColumn(name = "funcionario_id")
+  	@NotNull(message = "Funcionario não pode ser vazio!!!")
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "funcionario_id")
-	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	@JsonIgnoreProperties({"viagens", "hibernateLazyInitializer", "handler"})
 	private Funcionario funcionario; 
     
     @NotNull(message = "Cidade não pode ser vazia!!!")

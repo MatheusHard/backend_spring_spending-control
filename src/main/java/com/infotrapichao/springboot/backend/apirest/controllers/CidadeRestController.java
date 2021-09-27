@@ -58,9 +58,7 @@ public class CidadeRestController {
 	public List<Uf> listarUfs(){
 		return cidadeService.findAllUfs();
 	}
-	
-
-	
+		
 	/****************GET SHOW****************/
 
 	@Secured({"ROLE_ADMIN", "ROLE_USER"})
@@ -88,6 +86,7 @@ public class CidadeRestController {
 	}
 	
 	/****************POST****************/
+	
 	@Secured({"ROLE_ADMIN"})
 	@PostMapping("/cidades")
 	public ResponseEntity<?> create(@Valid @RequestBody Cidade cidade, BindingResult result) {
