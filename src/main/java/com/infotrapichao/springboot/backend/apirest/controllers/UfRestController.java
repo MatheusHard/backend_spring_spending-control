@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -42,7 +43,7 @@ import com.infotrapichao.springboot.backend.apirest.services.IUfService;
 		}
 		
 		/****************GET SHOW****************/
-		
+		@Secured({"ROLE_ADMIN", "ROLE_USER"})
 		@GetMapping("/ufs/{id}")
 		@ResponseStatus(HttpStatus.OK)
 		public ResponseEntity<?> show(@PathVariable Long id) {
@@ -67,6 +68,7 @@ import com.infotrapichao.springboot.backend.apirest.services.IUfService;
 		
 		/****************POST****************/
 		
+		@Secured({"ROLE_ADMIN"})
 		@PostMapping("/ufs")
 		public ResponseEntity<?> create(@Valid @RequestBody Uf uf, BindingResult result) {
 			Uf newUf = null;
@@ -97,7 +99,8 @@ import com.infotrapichao.springboot.backend.apirest.services.IUfService;
 		}
 		
 		/****************PUT****************/
-		
+
+		@Secured({"ROLE_ADMIN"})
 		@PutMapping("ufs/{id}")
 		public ResponseEntity<?> update(@Valid @RequestBody Uf uf, BindingResult result, @PathVariable Long id) {
 			
@@ -142,6 +145,7 @@ import com.infotrapichao.springboot.backend.apirest.services.IUfService;
 		
 		/****************DELETE****************/
 			
+		@Secured({"ROLE_ADMIN"})
 		@DeleteMapping("/ufs/{id}")
 		public ResponseEntity<?> delete(@PathVariable Long id) {
 			Map<String, Object> response = new HashMap<>();

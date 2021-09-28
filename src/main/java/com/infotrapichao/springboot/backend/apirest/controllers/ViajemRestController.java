@@ -161,7 +161,7 @@ public class ViajemRestController {
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		response.put("mensagem", "Atualizado na base com sucesso!!!");
-		response.put("cidade", viajemUpdated);
+		response.put("viajem", viajemUpdated);
 		
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 		

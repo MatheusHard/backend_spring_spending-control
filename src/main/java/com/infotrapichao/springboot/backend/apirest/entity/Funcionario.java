@@ -69,12 +69,11 @@ public class Funcionario implements Serializable{
 		@Temporal(TemporalType.DATE)
 		private Date createAt;
 		
-		
+		@JsonIgnoreProperties({"funcionario", "hibernateLazyInitializer", "handler"})
 		@OneToMany(fetch = FetchType.LAZY, mappedBy = "funcionario", cascade = CascadeType.ALL)
 		private List<Viajem> viagens;
 
-		
-		
+				
 		public Funcionario() {
 			
 			this.viagens = new ArrayList<>();
@@ -146,13 +145,13 @@ public class Funcionario implements Serializable{
 		
 		
 		
-		/*public List<Viajem> getViagens() {
+		public List<Viajem> getViagens() {
 			return viagens;
 		}
 
 		public void setViagens(List<Viajem> viagens) {
 			this.viagens = viagens;
-		}*/
+		}
 
 
 

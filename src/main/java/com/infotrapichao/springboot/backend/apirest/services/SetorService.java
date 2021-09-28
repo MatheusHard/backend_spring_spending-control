@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.infotrapichao.springboot.backend.apirest.dao.ISetorDao;
-import com.infotrapichao.springboot.backend.apirest.entity.Cidade;
 import com.infotrapichao.springboot.backend.apirest.entity.Setor;
 
 

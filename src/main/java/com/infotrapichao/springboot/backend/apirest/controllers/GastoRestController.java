@@ -13,7 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,71 +25,71 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.infotrapichao.springboot.backend.apirest.entity.Cidade;
-import com.infotrapichao.springboot.backend.apirest.entity.Uf;
-import com.infotrapichao.springboot.backend.apirest.services.ICidadeService;
+import com.infotrapichao.springboot.backend.apirest.entity.Gasto;
+import com.infotrapichao.springboot.backend.apirest.entity.Viajem;
+import com.infotrapichao.springboot.backend.apirest.services.IGastoService;
 
 @CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
 @RequestMapping("/api")
-public class CidadeRestController {
-
+public class GastoRestController {
+	
 	@Autowired
-	private ICidadeService cidadeService;
+	private IGastoService gastoService;
+
+/****************GET ALL****************/
 	
-	/****************GET ALL****************/
-	
-	@GetMapping("/cidades")
-	public List<Cidade> index(){
-		return cidadeService.findAll();
+	@GetMapping("/gastos")
+	public List<Gasto> index(){
+		return gastoService.findAll();
 	}
 	
 	/****************GET ALL PAGEABLE****************/
 	
-	@GetMapping("/cidades/page/{page}")
-	public Page<Cidade> index(@PathVariable Integer page){
-		return cidadeService.findAll(PageRequest.of(page, 4));
+	@GetMapping("/gastos/page/{page}")
+	public Page<Gasto> index(@PathVariable Integer page){
+		return gastoService.findAll(PageRequest.of(page, 4));
 	}
 	
-/****************GET ALL UFS****************/
+/****************GET ALL Viagens***************/
 	
-	@GetMapping("/cidades/ufs")
-	public List<Uf> listarUfs(){
-		return cidadeService.findAllUfs();
+	@GetMapping("/gastos/viagens")
+	public List<Viajem> listarViagens(){
+		return gastoService.findAllViagens();
 	}
-		
-	/****************GET SHOW****************/
+	
 
-	@Secured({"ROLE_ADMIN", "ROLE_USER"})
-	@GetMapping("/cidades/{id}")
+	
+	/****************GET SHOW****************/
+	
+	@GetMapping("/gastos/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<?> show(@PathVariable Long id) {
 		
-		Cidade cidade  = null;
+		Gasto gasto = null;
 		Map<String, Object> response = new HashMap<>();
 		
 		try{
 			 
-			cidade = cidadeService.findById(id);	
+			gasto  = gastoService.findById(id);	
 			
 		}catch (DataAccessException e) {
 			response.put("mensagem", "Erro ao realizar consulta no DB");
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
 		}
-		if(cidade == null) {
-			response.put("mensagem", "A cidade: ".concat(id.toString().concat(" não existe!!!")));
+		if(gasto  == null) {
+			response.put("mensagem", "Gasto: ".concat(id.toString().concat(" não existe!!!")));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
-		return new ResponseEntity<Cidade>(cidade, HttpStatus.OK);
+		return new ResponseEntity<Gasto>(gasto , HttpStatus.OK);
 	}
 	
 	/****************POST****************/
 	
-	@Secured({"ROLE_ADMIN"})
-	@PostMapping("/cidades")
-	public ResponseEntity<?> create(@Valid @RequestBody Cidade cidade, BindingResult result) {
-		Cidade newCidade= null;
+	@PostMapping("/gastos")
+	public ResponseEntity<?> create(@Valid @RequestBody Gasto gasto, BindingResult result) {
+		Gasto newGasto= null;
 		Map<String, Object> response = new HashMap<>();
 		
 		if(result.hasErrors()) {
@@ -105,26 +104,25 @@ public class CidadeRestController {
 		}
 		
 		try{
-			newCidade = cidadeService.save(cidade);
+			newGasto = gastoService.save(gasto);
 		}catch (DataAccessException e) {
-			response.put("mensagem", "Erro ao inserir a Cidade na base de dados");
+			response.put("mensagem", "Erro ao inserir o Gasto na base de dados");
 			response.put("error",e.getMessage().concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR); 
 		}
 		
-		response.put("mensagem", "Cidade inserida na base de dados com sucesso");
-		response.put("cidade", newCidade);
+		response.put("mensagem", "Gasto inserida na base de dados com sucesso");
+		response.put("gasto", newGasto);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED); 
 	}
 	
 	/****************PUT****************/
-
-	@Secured({"ROLE_ADMIN"})
-	@PutMapping("cidades/{id}")
-	public ResponseEntity<?> update(@Valid @RequestBody Cidade cidade, BindingResult result, @PathVariable Long id) {
+	
+	@PutMapping("gastos/{id}")
+	public ResponseEntity<?> update(@Valid @RequestBody Gasto gasto, BindingResult result, @PathVariable Long id) {
 		
-		Cidade cidadeAtual = cidadeService.findById(id);
-		Cidade cidadeUpdated = null;
+		Gasto gastoAtual = gastoService.findById(id);
+		Gasto gastoUpdated = null;
 		
 		Map<String, Object> response = new HashMap<>();
 		
@@ -133,7 +131,7 @@ public class CidadeRestController {
 			
 			List<String> errors = result.getFieldErrors().
 						stream().
-						map(err -> "O campo '"+err.getField() + "' "+err.getDefaultMessage()).
+						map(err -> "O campo '"+err.getField() + "' "+ err.getDefaultMessage()).
 						collect(Collectors.toList());
 			response.put("errors", errors);
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST); 
@@ -141,25 +139,28 @@ public class CidadeRestController {
 		}
 		
 		
-		if(cidadeAtual == null) {
+		if(gastoAtual == null) {
 			response.put("mensagem", "Erro: não foi possivel editar o ID: ".concat(id.toString()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
 		}
 		
 		try {
 		
-			cidadeAtual.setDescricao_cidade(cidade.getDescricao_cidade());
-			cidadeAtual.setUf(cidade.getUf());
-
+			gastoAtual.setImagem(gasto.getImagem());
+			gastoAtual.setLatitude(gasto.getLatitude());
+			gastoAtual.setValor(gasto.getValor());
+			gastoAtual.setLongitude(gasto.getLongitude());
+			gastoAtual.setViajem(gasto.getViajem());
 			
-			cidadeUpdated =  cidadeService.save(cidadeAtual);
+			gastoUpdated =  gastoService.save(gastoAtual);
+		
 		}catch (DataAccessException e) {
-			response.put("mensagem", "Erro al atualizar a Cidade na base");
+			response.put("mensagem", "Erro ao atualizar o Gasto na base");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		response.put("mensagem", "Atualizado na base com sucesso!!!");
-		response.put("cidade", cidadeUpdated);
+		response.put("gasto", gastoUpdated);
 		
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 		
@@ -168,22 +169,20 @@ public class CidadeRestController {
 	
 	/****************DELETE****************/
 		
-	@Secured({"ROLE_ADMIN"})
-	@DeleteMapping("/cidades/{id}")
+	@DeleteMapping("/gastos/{id}")
 	public ResponseEntity<?> delete(@PathVariable Long id) {
 		Map<String, Object> response = new HashMap<>();
 
 		try {
-			cidadeService.delete(id);
+			gastoService.delete(id);
 		}catch (DataAccessException e) {
 			
-			response.put("mensagem", "Erro ,  não foi possivel deletar a cidade na base");
+			response.put("mensagem", "Erro, não foi possivel deletar o gasto na base");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);		
 			
 		}
 			
-		response.put("mensagem", "Cidade deletado da base");
+		response.put("mensagem", "Gasto deletado da base");
         return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);		
 	}}
-
