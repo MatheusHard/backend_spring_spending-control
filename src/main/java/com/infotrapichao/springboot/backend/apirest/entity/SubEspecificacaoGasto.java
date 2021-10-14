@@ -3,6 +3,7 @@ package com.infotrapichao.springboot.backend.apirest.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -24,7 +26,7 @@ import lombok.Setter;
 
 
 	@Entity
-	@Table(name = "sub_especififacao_gastos")
+	@Table(name = "sub_especificacao_gastos")
 	@Getter
 	@Setter
 	public class SubEspecificacaoGasto implements Serializable{
@@ -43,10 +45,22 @@ import lombok.Setter;
 		@JsonIgnoreProperties({"sub_especififacacoes_gastos", "hibernateLazyInitializer", "handler"})
 		private EspecificacaoGasto especificacaoGasto; 
 		
+		/*@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "subEspecificacaoGasto")
+		@JsonIgnoreProperties({"subEspecificacaoGasto", "hibernateLazyInitializer", "handler"})
+		private Gasto gasto;
+		
+		
+		public Gasto getGasto() {
+			return gasto;
+		}
+
+		public void setGasto(Gasto gasto) {
+			this.gasto = gasto;
+		}*/
+
 		@Column(name="create_at")
 		@Temporal(TemporalType.DATE)
 		private Date createAt;
-	    
 	    
 	    public Long getId() {
 			return id;

@@ -3,19 +3,23 @@ package com.infotrapichao.springboot.backend.apirest.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -32,7 +36,21 @@ public class Gasto implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	//tipo_gasto
+	@NotEmpty(message = "Fornecedor Obrigatório!!!")
+	@Size(min = 3, max = 100, message = "Tamanho deve ser entre 3 e 100 caracteres!!!")
+	@Column(nullable = false)
+	private String fornecedor;
+	
+	@NotNull(message = "Data do Gasto não pode estar vazia!!!")
+	@Column(name="data_gasto")
+	@Temporal(TemporalType.DATE)
+	private Date data_gasto;
+	
+	
+	@NotEmpty(message = "Cpf é Obrigatório!!!")
+	@Size(max = 11, min= 11, message = "Tamanho deve ser entre 11 caracteres!!!")
+	@Column(nullable = false)
+	private String cpf_devedor;
 	
 	
 	@Column(name="valor")
@@ -53,8 +71,61 @@ public class Gasto implements Serializable{
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnoreProperties({"gastos", "hibernateLazyInitializer", "handler"})
 	private Viajem viajem; 
-    
-    @Column(name="create_at")
+  	
+	//, cascade = CascadeType.ALL@NotNull(message = "SubEspecificação não pode ser vazia!!!")
+  	/*@JsonIgnoreProperties({"gasto", "hibernateLazyInitializer", "handler"})
+	@OneToOne(fetch = FetchType.LAZY)
+	private SubEspecificacaoGasto subEspecificacaoGasto;
+	
+	 
+    */
+  	@NotNull(message = "Subespecificacao do Gasto não pode ser vazia!!!")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "subespecificacao_id")
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	private SubEspecificacaoGasto subEspecificacaoGasto; 
+  	
+  	public SubEspecificacaoGasto getSubEspecificacaoGasto() {
+		return subEspecificacaoGasto;
+	}
+
+	public void setSubEspecificacaoGasto(SubEspecificacaoGasto subEspecificacaoGasto) {
+		this.subEspecificacaoGasto = subEspecificacaoGasto;
+	}
+
+	public String getFornecedor() {
+		return fornecedor;
+	}
+
+	public void setFornecedor(String fornecedor) {
+		this.fornecedor = fornecedor;
+	}
+
+	public Date getData_gasto() {
+		return data_gasto;
+	}
+
+	public void setData_gasto(Date data_gasto) {
+		this.data_gasto = data_gasto;
+	}
+	
+  	public String getCpf_devedor() {
+		return cpf_devedor;
+	}
+
+	public void setCpf_devedor(String cpf_devedor) {
+		this.cpf_devedor = cpf_devedor;
+	}
+  	/*
+    public SubEspecificacaoGasto getSubEspecificacaoGasto() {
+		return subEspecificacaoGasto;
+	}
+
+	public void setSubEspecificacaoGasto(SubEspecificacaoGasto subEspecificacaoGasto) {
+		this.subEspecificacaoGasto = subEspecificacaoGasto;
+	}*/
+
+	@Column(name="create_at")
 	@Temporal(TemporalType.DATE)
 	private Date createAt;
 			
@@ -121,6 +192,10 @@ public class Gasto implements Serializable{
 
 	public void setCreateAt(Date createAt) {
 		this.createAt = createAt;
+	}
+	
+	public Double getSomaValores() {
+		return this.getValor();
 	}
 
 	

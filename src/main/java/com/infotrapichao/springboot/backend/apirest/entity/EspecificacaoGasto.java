@@ -46,20 +46,25 @@ public class EspecificacaoGasto implements Serializable {
     
     @JsonIgnoreProperties({"especificacaoGasto", "hibernateLazyInitializer", "handler"})
   	@OneToMany(fetch = FetchType.LAZY, mappedBy = "especificacaoGasto", cascade = CascadeType.ALL)
-  	private List<SubEspecificacaoGasto> sub_especififacacoes_gastos;
+  	private List<SubEspecificacaoGasto> sub_especificacoes_gastos;
       
     /*Construtor inicializado com SubEspecificacao*/
       public EspecificacaoGasto() {
-      	this.sub_especififacacoes_gastos = new ArrayList<SubEspecificacaoGasto>();
+      	this.sub_especificacoes_gastos = new ArrayList<SubEspecificacaoGasto>();
       }
-      
-	public List<SubEspecificacaoGasto> getSub_especififacacoes_gastos() {
-		return sub_especififacacoes_gastos;
+     
+	
+	public List<SubEspecificacaoGasto> getSub_especificacoes_gastos() {
+		return sub_especificacoes_gastos;
 	}
 
-	public void setSub_especififacacoes_gastos(List<SubEspecificacaoGasto> sub_especififacacoes_gastos) {
-		this.sub_especififacacoes_gastos = sub_especififacacoes_gastos;
+
+
+	public void setSub_especificacoes_gastos(List<SubEspecificacaoGasto> sub_especificacoes_gastos) {
+		this.sub_especificacoes_gastos = sub_especificacoes_gastos;
 	}
+
+
 
 	public Long getId() {
 		return id;
