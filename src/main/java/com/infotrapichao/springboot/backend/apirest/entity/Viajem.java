@@ -82,7 +82,7 @@ public class Viajem implements Serializable{
     public Viajem() {
     	this.gastos = new ArrayList<Gasto>();
     }
-    
+     
     @Column(name="create_at")
 	@Temporal(TemporalType.DATE)
 	private Date createAt;
@@ -101,8 +101,6 @@ public class Viajem implements Serializable{
 	}
 
 
-	
-	
 	
 	public Long getId() {
 		return id;
@@ -133,11 +131,12 @@ public class Viajem implements Serializable{
 		this.dataFinal = dataFinal;
 	}
 
+	 public double getSaldo() {
+	    	
+	    	return saldo;
+		}
 
-	public double getSaldo() {
-		return saldo;
-	}
-
+	
 
 	public void setSaldo(double saldo) {
 		this.saldo = saldo;
@@ -145,6 +144,14 @@ public class Viajem implements Serializable{
 
 
 	public double getGastoTotal() {
+			
+		double sum = 0;
+        
+    	for (Gasto gasto : this.getGastos()) {
+    	    sum += gasto.getValor(); 
+    		}
+    	gastoTotal = sum;
+    	    	
 		return gastoTotal;
 	}
 
@@ -153,26 +160,21 @@ public class Viajem implements Serializable{
 		this.gastoTotal = gastoTotal;
 	}
 
-
 	public Funcionario getFuncionario() {
 		return funcionario;
 	}
-
 
 	public void setFuncionario(Funcionario funcionario) {
 		this.funcionario = funcionario;
 	}
 
-
 	public Date getCreateAt() {
 		return createAt;
 	}
 
-
 	public void setCreateAt(Date createAt) {
 		this.createAt = createAt;
 	}
-
 
 	/**
 	 * 

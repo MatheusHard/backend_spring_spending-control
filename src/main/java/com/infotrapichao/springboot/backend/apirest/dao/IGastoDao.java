@@ -12,5 +12,5 @@ public interface IGastoDao extends JpaRepository<Gasto, Long>{
 	
 	@Query("from Funcionario")
 	public List<Viajem> findAllViagens();
-	
-}
+
+	}
