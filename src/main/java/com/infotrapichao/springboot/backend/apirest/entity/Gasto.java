@@ -72,6 +72,13 @@ public class Gasto implements Serializable{
 	@JsonIgnoreProperties({"gastos", "hibernateLazyInitializer", "handler"})
 	private Viajem viajem; 
   	
+  	
+	
+	
+	@Column(name="subespecificacao_id", nullable = false)
+	private Long subespecificacao_id;
+	
+  	
 	//, cascade = CascadeType.ALL@NotNull(message = "SubEspecificação não pode ser vazia!!!")
   	/*@JsonIgnoreProperties({"gasto", "hibernateLazyInitializer", "handler"})
 	@OneToOne(fetch = FetchType.LAZY)
@@ -79,7 +86,7 @@ public class Gasto implements Serializable{
 	
 	 
     */
-  	@NotNull(message = "Subespecificacao do Gasto não pode ser vazia!!!")
+  	/*@NotNull(message = "Subespecificacao do Gasto não pode ser vazia!!!")
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "subespecificacao_id")
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -91,6 +98,14 @@ public class Gasto implements Serializable{
 
 	public void setSubEspecificacaoGasto(SubEspecificacaoGasto subEspecificacaoGasto) {
 		this.subEspecificacaoGasto = subEspecificacaoGasto;
+	}*/
+
+	public Long getSubespecificacao_id() {
+		return subespecificacao_id;
+	}
+
+	public void setSubespecificacao_id(Long subespecificacao_id) {
+		this.subespecificacao_id = subespecificacao_id;
 	}
 
 	public String getFornecedor() {

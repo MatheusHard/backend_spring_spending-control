@@ -26,6 +26,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 		.antMatchers("/api/funcionarios/**").permitAll()
 		.antMatchers("/api/funcionarios/{id}").permitAll()
 		.antMatchers("/api/viagens/**").permitAll()
+		.antMatchers("/api/ufs/**").permitAll()
 		//.antMatchers("/api/cidades/**").permitAll()
 		.antMatchers("/api/gastos/**").permitAll()
 		.antMatchers("/api/especificacao_gastos/**").permitAll()
@@ -33,7 +34,6 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
 		//.antMatchers(HttpMethod.POST, "/api/setores").hasAnyRole("ADMIN")
 		//.antMatchers("/api/setores/**").hasAnyRole("ADMIN")
-
 
 		.anyRequest().authenticated()
 		.and().cors().configurationSource(corsConfigurationSource());
