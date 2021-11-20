@@ -75,7 +75,7 @@ public class Viajem implements Serializable{
    	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
    	private Cidade cidade; 
     
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "viajem"})
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "viajem", cascade = CascadeType.ALL)
 	private List<Gasto> gastos;
     
