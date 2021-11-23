@@ -147,10 +147,14 @@ public class GastoRestController {
 		try {
 		
 			gastoAtual.setImagem(gasto.getImagem());
+			gastoAtual.setFornecedor(gasto.getFornecedor());
 			gastoAtual.setLatitude(gasto.getLatitude());
+			gastoAtual.setData_gasto(gasto.getData_gasto());
+			gastoAtual.setCpf_devedor(gasto.getCpf_devedor());
 			gastoAtual.setValor(gasto.getValor());
 			gastoAtual.setLongitude(gasto.getLongitude());
 			gastoAtual.setViajem(gasto.getViajem());
+			gastoAtual.setSubespecificacao_id(gasto.getSubespecificacao_id());
 			
 			gastoUpdated =  gastoService.save(gastoAtual);
 		
