@@ -179,6 +179,8 @@ public class FuncionarioRestController {
 				funcionarioAtual.setEmail(funcionario.getEmail());
 				funcionarioAtual.setTelefone(funcionario.getTelefone());
 				funcionarioAtual.setSetor(funcionario.getSetor());
+				//funcionarioAtual.setViagens(funcionario.getViagens());
+				
 								
 				funcionarioUpdated =  funcionarioService.save(funcionarioAtual);
 			}catch (DataAccessException e) {
