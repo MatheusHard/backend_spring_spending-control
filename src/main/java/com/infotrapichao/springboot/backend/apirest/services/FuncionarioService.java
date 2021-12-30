@@ -56,6 +56,13 @@ public class FuncionarioService implements IFuncionarioService{
 	public List<Setor> findAllSetores() {
 		return funcionarioDao.findAllSetores();
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Funcionario findByCpfAndPassword(String cpf, String password) {
+		return funcionarioDao.findByCpfAndPassword(cpf, password);
+	}
+	
 	
 
 	

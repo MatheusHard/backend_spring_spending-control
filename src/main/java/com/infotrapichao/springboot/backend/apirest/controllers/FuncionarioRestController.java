@@ -86,6 +86,31 @@ public class FuncionarioRestController {
 			return new ResponseEntity<Funcionario>(funcionario, HttpStatus.OK);
 		}
 		
+		
+	/****************GET SHOW****************/
+		
+		@GetMapping("/funcionarios/find_by_login/{cpf}/{password}")
+		@ResponseStatus(HttpStatus.OK)
+		public ResponseEntity<?> show_login(@PathVariable String cpf, @PathVariable String password) {
+			
+			Funcionario funcionario = null;
+			Map<String, Object> response = new HashMap<>();
+			
+			try{
+				funcionario = funcionarioService.findByCpfAndPassword(cpf, password);	
+				
+			}catch (DataAccessException e) {
+				response.put("mensagem", "Erro ao realizar consulta no DB");
+				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+			}
+			if(funcionario == null) {
+				response.put("mensagem", "O Funcionario: ".concat(cpf.toString().concat(" não existe!!!")));
+				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			
+			return new ResponseEntity<Funcionario>(funcionario, HttpStatus.OK);
+		}
+		
 		/****************POST****************/
 		
 		@Secured({"ROLE_ADMIN"})

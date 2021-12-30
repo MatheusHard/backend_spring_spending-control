@@ -62,6 +62,20 @@ public class Funcionario implements Serializable{
 		@Column(nullable = false, unique=true)
 		private String email;
 		
+		@Column(length = 60)
+		private String password;
+		
+		public String getPassword() {
+			return password;
+		}
+
+		public void setPassword(String password) {
+			this.password = password;
+		}
+
+
+
+
 		@Column(nullable = true)
 		private String telefone;
 		
