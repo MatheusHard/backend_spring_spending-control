@@ -30,6 +30,8 @@ import org.springframework.validation.BindingResult;
 	import com.infotrapichao.springboot.backend.apirest.entity.Setor;
 	import com.infotrapichao.springboot.backend.apirest.services.IFuncionarioService;
 
+import lombok.var;
+
 
 @CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
@@ -109,6 +111,29 @@ public class FuncionarioRestController {
 			}
 			
 			return new ResponseEntity<Funcionario>(funcionario, HttpStatus.OK);
+		}
+		
+		@PostMapping("/funcionarios/find_by_login")
+		@ResponseStatus(HttpStatus.OK)
+		public ResponseEntity<?> show_login(@Valid @RequestBody Funcionario funcionario, BindingResult result) {
+			
+			Funcionario newFuncionario= null;
+			Map<String, Object> response = new HashMap<>();
+			
+			
+			try{
+				newFuncionario = funcionarioService.findByCpfAndPassword(
+													funcionario.getCpf().toString(), 
+													funcionario.getPassword().toString());
+			}catch (DataAccessException e) {
+				response.put("mensagem", "Erro na busca do Funcionario na base de dados");
+				response.put("error",e.getMessage().concat(e.getMostSpecificCause().getMessage()));
+				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR); 
+			}
+			
+			//response.put("mensagem", "Funcionario inserido na base de dados com sucesso");
+			response.put("funcionario", newFuncionario);
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED); 
 		}
 		
 		/****************POST****************/

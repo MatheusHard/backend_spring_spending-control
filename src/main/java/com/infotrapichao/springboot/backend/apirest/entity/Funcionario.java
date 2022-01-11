@@ -74,8 +74,6 @@ public class Funcionario implements Serializable{
 		}
 
 
-
-
 		@Column(nullable = true)
 		private String telefone;
 		
