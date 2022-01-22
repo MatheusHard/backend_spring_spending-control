@@ -49,5 +49,7 @@ public class EspecificacaoGastoService implements IEspecificacaoGastoService {
 	public void delete(Long id) {
 		especificacaoGastoDao.deleteById(id);		
 	}
+	
+	
 
 }

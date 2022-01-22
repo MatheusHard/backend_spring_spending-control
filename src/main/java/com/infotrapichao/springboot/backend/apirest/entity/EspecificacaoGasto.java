@@ -12,12 +12,15 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -44,8 +47,36 @@ public class EspecificacaoGasto implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date createAt;
     
-    @JsonIgnoreProperties({"especificacaoGasto", "hibernateLazyInitializer", "handler"})
-  	@OneToMany(fetch = FetchType.LAZY, mappedBy = "especificacaoGasto", cascade = CascadeType.ALL)
+    @Column(name="valor_especificacao")
+	private double valor_especificacao;
+  	
+    
+	public double getValor_especificacao() {
+		return valor_especificacao;
+	}
+
+
+	public void setValor_especificacao(double valor_especificacao) {
+		this.valor_especificacao = valor_especificacao;
+	}
+
+
+	@ManyToOne(fetch = FetchType.LAZY)
+   	@JsonIgnoreProperties({"hibernateLazyInitializer", "especificacoes_gastos", "handler"})
+   	private Viajem viajem_especificacao; 
+    
+    public Viajem getViajem_especificacao() {
+		return viajem_especificacao;
+	}
+
+
+	public void setViajem_especificacao(Viajem viajem_especificacao) {
+		this.viajem_especificacao = viajem_especificacao;
+	}
+
+
+	@JsonIgnoreProperties({"especificacaoGasto", "especificacoes_gastos", "hibernateLazyInitializer", "handler"})
+  	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   	private List<SubEspecificacaoGasto> sub_especificacoes_gastos;
       
     /*Construtor inicializado com SubEspecificacao*/

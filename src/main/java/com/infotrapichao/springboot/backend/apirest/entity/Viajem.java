@@ -25,6 +25,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Getter;
 import lombok.Setter;
+import utils.StatusSolicitacao;
 
 @Entity
 @Table(name = "viagens")
@@ -57,12 +58,23 @@ public class Viajem implements Serializable{
     //@Range(min = 0, max = 10)
 	@Column(name = "saldo", nullable = false)
 	private double saldo;
+	
+	@Column(name="status")
+	@NotNull(message = "Status é Obrigatório!!!")
+	private StatusSolicitacao status;
     
-    //@Range(min = 0, max = 10)
+    public StatusSolicitacao getStatus() {
+		return status;
+	}
+
+	public void setStatus(StatusSolicitacao status) {
+		this.status = status;
+	}
+
+	//@Range(min = 0, max = 10)
   	@Column(name="gasto_total", nullable = false)
   	private double gastoTotal;
-    
-    
+        
 	//@JoinColumn(name = "funcionario_id")
   	@NotNull(message = "Funcionario não pode ser vazio!!!")
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -79,8 +91,22 @@ public class Viajem implements Serializable{
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "viajem", cascade = CascadeType.ALL)
 	private List<Gasto> gastos;
     
-    public Viajem() {
+    @JsonIgnoreProperties({"sub_especificacoes_gastos", "especificacaoGasto", "viajem_especificacao", "hibernateLazyInitializer", "handler"})
+  	@OneToMany(fetch = FetchType.LAZY, mappedBy = "viajem_especificacao", cascade = CascadeType.ALL)
+  	private List<EspecificacaoGasto> especificacoes_gastos;
+      
+   
+    public List<EspecificacaoGasto> getEspecificacoes_gastos() {
+		return especificacoes_gastos;
+	}
+
+	public void setEspecificacoes_gastos(List<EspecificacaoGasto> especificacoes_gastos) {
+		this.especificacoes_gastos = especificacoes_gastos;
+	}
+
+	public Viajem() {
     	this.gastos = new ArrayList<Gasto>();
+    	this.especificacoes_gastos = new ArrayList<EspecificacaoGasto>();
     }
      
     @Column(name="create_at")

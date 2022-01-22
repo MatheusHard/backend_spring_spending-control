@@ -2,7 +2,7 @@ package utils;
 
 public enum StatusSolicitacao {
 
-	EM_ANALISE , APROVADA, REPROVADA, REMOVIDA;
+	EM_ANALISE, APROVADA, REPROVADA, REMOVIDA;
 
 	
 }

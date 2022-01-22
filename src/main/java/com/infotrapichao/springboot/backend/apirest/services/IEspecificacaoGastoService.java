@@ -2,6 +2,7 @@ package com.infotrapichao.springboot.backend.apirest.services;
 
 import java.util.List;
 
+import org.apache.tomcat.jni.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -14,5 +15,7 @@ public interface IEspecificacaoGastoService {
 	public EspecificacaoGasto findById(Long id);
 	public EspecificacaoGasto save(EspecificacaoGasto especificacaoGasto);
 	public void delete(Long id);
+
+	
 	
 }

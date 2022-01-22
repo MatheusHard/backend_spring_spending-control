@@ -44,6 +44,9 @@ import com.infotrapichao.springboot.backend.apirest.services.IEspecificacaoGasto
 			return especificacaoGastoService.findAll();
 		}
 		
+		
+		
+		
 	/****************GET ALL PAGEABLE****************/
 		
 		@GetMapping("/especificacao_gastos/page/{page}")
@@ -74,6 +77,8 @@ import com.infotrapichao.springboot.backend.apirest.services.IEspecificacaoGasto
 			
 			return new ResponseEntity<EspecificacaoGasto>(especificacaoGasto, HttpStatus.OK);
 		}
+		
+		
 		
 		/****************POST****************/
 		
@@ -143,8 +148,11 @@ import com.infotrapichao.springboot.backend.apirest.services.IEspecificacaoGasto
 			try {
 			
 				especificacaoGastoAtual.setDescricao_especificacao_gasto(especificacaoGasto.getDescricao_especificacao_gasto());
+				especificacaoGastoAtual.setValor_especificacao(especificacaoGasto.getValor_especificacao());
+				especificacaoGastoAtual.setViajem_especificacao(especificacaoGasto.getViajem_especificacao());
 				
 				especificacaoGastoUpdated =  especificacaoGastoService.save(especificacaoGastoAtual);
+				
 			}catch (DataAccessException e) {
 				response.put("mensagem", "Erro al atualizar o setor na base");
 				response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
@@ -177,6 +185,30 @@ import com.infotrapichao.springboot.backend.apirest.services.IEspecificacaoGasto
 				
 			response.put("mensagem", "EspecificacaoGasto deletada da base");
 	        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);		
-		}}
+		}
+	
 
+		/**************POST ALL**************/
+	@PostMapping("/especificacao_gastos/array")
+	public ResponseEntity<?> createAll(@Valid @RequestBody List<EspecificacaoGasto> especificacaoGastos) {
+		
+		Map<String, Object> response = new HashMap<>();
 
+	        try {
+	        	for(EspecificacaoGasto e: especificacaoGastos) {
+	        		System.out.println(e.getDescricao_especificacao_gasto());
+	        		System.out.println(e.getValor_especificacao());
+	        			        		
+
+	        	}
+	        	response.put("mensagem", "EspecificacaoGasto cadastradas da base");
+				response.put("especificacaoGasto", especificacaoGastos);
+		        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);	
+		        }catch (Exception e) {
+				// TODO: handle exception
+			}
+		
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);		
+	}
+
+	}
