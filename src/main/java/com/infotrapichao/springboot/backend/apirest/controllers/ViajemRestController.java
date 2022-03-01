@@ -23,14 +23,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.infotrapichao.springboot.backend.apirest.dao.ViajemCustomDao;
 import com.infotrapichao.springboot.backend.apirest.entity.EspecificacaoGasto;
 import com.infotrapichao.springboot.backend.apirest.entity.Funcionario;
 import com.infotrapichao.springboot.backend.apirest.entity.Viajem;
 import com.infotrapichao.springboot.backend.apirest.services.IEspecificacaoGastoService;
 import com.infotrapichao.springboot.backend.apirest.services.IViajemService;
+
+import utils.StatusSolicitacao;
 
 @CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
@@ -43,6 +47,13 @@ public class ViajemRestController {
 	@Autowired
 	private IEspecificacaoGastoService especificacaoGastoService;
 	
+    private final ViajemCustomDao viajemCustomDao;
+
+	ViajemRestController(ViajemCustomDao viajemCustomDao){
+		this.viajemCustomDao = viajemCustomDao;
+		
+	}
+    
 	/****************GET ALL****************/
 	
 	@GetMapping("/viagens")
@@ -176,8 +187,7 @@ public class ViajemRestController {
 			for(EspecificacaoGasto e: array_especificacoes) {
 				
 				EspecificacaoGasto newEspecificacaoGasto = new EspecificacaoGasto();
-				
-				
+								
 				newEspecificacaoGasto.setDescricao_especificacao_gasto(e.getDescricao_especificacao_gasto());
 				newEspecificacaoGasto.setValor_especificacao(e.getValor_especificacao());
 			    newEspecificacaoGasto.setViajem_especificacao(viajemAtual);
@@ -245,4 +255,31 @@ public class ViajemRestController {
 			
 		response.put("mensagem", "Viajem deletada da base");
         return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);		
-	}}
+	}
+	
+	@GetMapping("/viagens/custom")
+    public List<Viajem> findPersonByCustom(
+            @RequestParam(value = "id", required = false) Long id,
+            @RequestParam(value = "status", required = false) StatusSolicitacao status,
+            @RequestParam(value = "sobrenome", required = false) String sobrenome)
+	{
+	        return viajemCustomDao.find(id, status);
+    }
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
